@@ -45,3 +45,12 @@ edge cases like are considered undefined behaviour.
 
     Running `merl:compile/1` on the result produces an internal error in function
     `erl_lint:function_state/2`.
+
+    Minimal breaking example:
+
+        merl:compile(merl:quote(["-module(o).", "a() -> ", "%==", "ok."])).
+
+    From merl.erl:
+    > `%% TODO: traverse sub-tree rather than only the top level nodes`
+
+    So this is something that needs fixing in merl.
