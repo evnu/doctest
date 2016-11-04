@@ -16,7 +16,6 @@ run(Files) when is_list(Files) ->
 
 run1(File) when is_binary(File);
                 is_list(File) ->
-    %% TODO compile and load File to make the module available when running tests
     %% Create tests
     Comments = erl_comment_scan:file(File),
     {ok,RawChunks} = scan(Comments),
