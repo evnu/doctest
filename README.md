@@ -32,3 +32,16 @@ this would be legal as well (but should probably be avoided):
 
 Here, the generated function ends after calling `another_function()`. As this is a proof-of-concept,
 edge cases like are considered undefined behaviour.
+
+## Some Restrictions
+
+* Comments in runnable chunks do not work. I suspect a problem in merl. Example:
+
+    ```Erlang
+    merl:quote(["run() -> ", "%%test", "ok."]).
+        [{function,1,run,0,[{clause,1,[],[],[{atom,3,ok}]}]},
+         {tree,comment,{attr,2,[],none},{comment,0,["%test"]}}]
+    ```
+
+    Running `merl:compile/1` on the result produces an internal error in function
+    `erl_lint:function_state/2`.

@@ -1,4 +1,4 @@
-all: ebin/doctest.beam ebin/doctest.escript ebin/ex1.beam ebin/ex2.beam ebin/failing.beam
+all: ebin/doctest.beam ebin/doctest.escript ebin/ex1.beam ebin/failing_edgecase.beam ebin/failing.beam
 
 ebin/:
 	mkdir ebin/
@@ -15,7 +15,7 @@ clean:
 ebin/ex1.beam: examples/ex1.erl
 	erlc -o ebin $<
 
-ebin/ex2.beam: examples/ex2.erl
+ebin/failing_edgecase.beam: examples/failing_edgecase.erl
 	erlc -o ebin $<
 
 ebin/failing.beam: examples/failing.erl
