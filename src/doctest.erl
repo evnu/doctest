@@ -6,6 +6,7 @@
 %% interpreter session.
 %%
 %% TODO NOTE: no epp - no preprocessing
+%% TODO mention that ``` must be matched exactly => ```no_run works OOTB
 -module(doctest).
 -export([run/1]).
 
@@ -63,14 +64,18 @@ compile_and_load(Chunks) -> % -> [Modules]
     [ compile_and_load1(Chunk) || Chunk <- Chunks ].
 
 compile_and_load1(Chunk) ->
-    %% TODO incorporate info on chunk (file, line) in created module
-    ModuleName = lists:flatten(
+    %% TODO incorporate info on chunk (file, line) in created module - pad
+    %% generated function to the line where original chunk is -> improves error
+    %% messages
+    %% TODO check if chunk ends with '.'; if not, add it
+    ModuleName = list_to_binary(
                    io_lib:format(
                      "doctest_~B", [erlang:unique_integer([positive])])),
-    Abstract = ["-module(" ++ ModuleName ++ ").",
-                "-export([run/0]).",
-                lists:flatten(io_lib:format("run() -> ~ts", [Chunk]))
+    Abstract = [<<"-module(", ModuleName/binary, ").">>,
+                <<"-export([run/0]).">>,
+                <<"run() ->">>
+                | Chunk
                ],
     Quoted = merl:quote(Abstract),
     {ok,_} = merl:compile_and_load(Quoted),
-    list_to_atom(ModuleName).
+    binary_to_atom(ModuleName, utf8).
