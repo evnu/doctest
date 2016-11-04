@@ -1,0 +1,3 @@
+#!/bin/bash
+
+escript src/doctest.escript ebin/ $*
