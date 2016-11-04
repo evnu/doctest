@@ -33,6 +33,11 @@ this would be legal as well (but should probably be avoided):
 Here, the generated function ends after calling `another_function()`. As this is a proof-of-concept,
 edge cases like are considered undefined behaviour.
 
+## Some Requirements
+
+* When calling functions within the module which contains the runnable doc, ensure that
+  the module is available in the code path.
+
 ## Some Restrictions
 
 * Comments in runnable chunks do not work. I suspect a problem in merl. Example:
@@ -54,3 +59,7 @@ edge cases like are considered undefined behaviour.
     > `%% TODO: traverse sub-tree rather than only the top level nodes`
 
     So this is something that needs fixing in merl.
+
+## Some TODOs
+
+* A user should be able to define a custom code path
