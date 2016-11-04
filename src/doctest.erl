@@ -19,8 +19,7 @@ run1(File) when is_binary(File);
     %% Create tests
     Comments = erl_comment_scan:file(File),
     {ok,RawChunks} = scan(Comments),
-    JoinedChunks = join_chunks(RawChunks),
-    CreatedModules = compile_and_load(JoinedChunks),
+    CreatedModules = compile_and_load(RawChunks),
     [ M:run() || M <- CreatedModules ].
 
 %% Scan for comments which indicate a runnable block.
@@ -59,9 +58,6 @@ sanitize(Comment) -> %% -> binary()
 drop_position_indicator(Comments) ->
     %% See erl_comment_scan:file/1 for the type of Comments
     [ InnerComments || {_,_,_,InnerComments} <- Comments ].
-
-join_chunks(Chunks) ->
-    [ lists:join("", SubChunks) || SubChunks <- Chunks ].
 
 compile_and_load(Chunks) -> % -> [Modules]
     [ compile_and_load1(Chunk) || Chunk <- Chunks ].
