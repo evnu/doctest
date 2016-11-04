@@ -21,10 +21,11 @@ run1(File) when is_binary(File);
     Comments = erl_comment_scan:file(File),
     {ok,RawChunks} = scan(Comments),
     CreatedModules = compile_and_load(RawChunks),
+    %% TODO output which test is currently running
     [ M:run() || M <- CreatedModules ].
 
 %% Scan for comments which indicate a runnable block.
-scan(Comments) -> % -> [Runnable]
+scan(Comments) -> % -> [Chunk of code]
     %% TODO it might be a good idea to assert that a block is contained in a
     %% consecutive comment -> Then we could make use of line numbering as well
     %% (need line numbers for error display)
