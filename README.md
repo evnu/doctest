@@ -38,28 +38,6 @@ edge cases like are considered undefined behaviour.
 * When calling functions within the module which contains the runnable doc, ensure that
   the module is available in the code path.
 
-## Some Restrictions
-
-* Comments in runnable chunks do not work. I suspect a problem in merl. Example:
-
-    ```Erlang
-    merl:quote(["run() -> ", "%%test", "ok."]).
-        [{function,1,run,0,[{clause,1,[],[],[{atom,3,ok}]}]},
-         {tree,comment,{attr,2,[],none},{comment,0,["%test"]}}]
-    ```
-
-    Running `merl:compile/1` on the result produces an internal error in function
-    `erl_lint:function_state/2`.
-
-    Minimal breaking example:
-
-        merl:compile(merl:quote(["-module(o).", "a() -> ", "%==", "ok."])).
-
-    From merl.erl:
-    > `%% TODO: traverse sub-tree rather than only the top level nodes`
-
-    So this is something that needs fixing in merl.
-
 ## Some TODOs
 
 * A user should be able to define a custom code path

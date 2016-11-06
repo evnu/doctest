@@ -68,14 +68,31 @@ compile_and_load1(Chunk) ->
     %% generated function to the line where original chunk is -> improves error
     %% messages
     %% TODO check if chunk ends with '.'; if not, add it
-    ModuleName = list_to_binary(
+    Chunk1 = [ binary_to_list(Bin) || Bin <- Chunk ],
+    ModuleName = lists:flatten(
                    io_lib:format(
                      "doctest_~B", [erlang:unique_integer([positive])])),
-    Abstract = [<<"-module(", ModuleName/binary, ").">>,
-                <<"-export([run/0]).">>,
-                <<"run() ->">>
-                | Chunk
+    Abstract = ["-module(" ++ ModuleName ++ ").",
+                "-export([run/0]).",
+                "run() ->"
+                |
+                Chunk1
                ],
-    Quoted = merl:quote(Abstract),
-    {ok,_} = merl:compile_and_load(Quoted),
-    binary_to_atom(ModuleName, utf8).
+    Joined = string:join(Abstract, "\n"),
+    {ok,Scanned,_} = erl_scan:string(Joined),
+    {[],SplitTokensRev} =
+        lists:foldl(
+          fun (D={dot,_}, {Cur,Done}) ->
+                  {[], [lists:reverse([D|Cur])|Done]};
+              (E, {Cur,Done}) ->
+                  {[E|Cur],Done}
+          end, {[],[]}, Scanned),
+    SplitTokens = lists:reverse(SplitTokensRev),
+    Forms = [ begin
+                  {ok,F} = erl_parse:parse_form(T),
+                  F
+              end || T <- SplitTokens ],
+    BinModuleName = list_to_atom(ModuleName),
+    {ok,BinModuleName,Bin} = compile:forms(Forms),
+    code:load_binary(BinModuleName, "nofile", Bin),
+    BinModuleName.
