@@ -20,7 +20,7 @@ To declare some part of the code as runnable, simply enclose it in backtics:
     %% hello = hello.
     %% ```
 
-Note that you must end the chunk with a `.`, as this will close the generated function. Note that
+Note that you must end the chunk with a `.`, as this will close the generated function. Hence,
 this would be legal as well (but should probably be avoided):
 
     %% ```
