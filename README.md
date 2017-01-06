@@ -31,7 +31,7 @@ this would be legal as well (but should probably be avoided):
     %% ```
 
 Here, the generated function ends after calling `another_function()`. As this is a proof-of-concept,
-edge cases like are considered undefined behaviour.
+edge cases like this are considered undefined behaviour for now.
 
 ## Some Requirements
 
