@@ -34,16 +34,12 @@ Here, the generated function ends after calling `another_function()`. As this is
 edge cases like this are considered undefined behaviour for now.
 
 ## Running Examples
-This is a little rough around the edges right now and could use some (a lot) of work. Currently,
-the examples have to be compiled manually and a `doctest:run/1` must be called from the command
-line:
+The PoC contains a small set of examples in `apps/examples`. They are build automatically by
+erlang.mk when invoking `make`. You can run an example from the command line:
 
-    cd examples
-    erlc *
-    cd -
-    erl -pa examples -pa ebin -eval 'ok = doctest:run("examples/ex1.erl"), init:stop().'
+    erl -pa ebin -pa apps/examples/ebin -eval 'doctest:run(["apps/examples/src/ex1.erl"]), init:stop().'
 
-Maybe resolving issue #2 could help here.
+This is not very convenient yet, but it works.
 
 ## Some Requirements
 
