@@ -94,5 +94,5 @@ compile_and_load1(Chunk) ->
               end || T <- SplitTokens ],
     BinModuleName = list_to_atom(ModuleName),
     {ok,BinModuleName,Bin} = compile:forms(Forms),
-    code:load_binary(BinModuleName, "nofile", Bin),
+    {module,_} = code:load_binary(BinModuleName, "nofile", Bin),
     BinModuleName.
