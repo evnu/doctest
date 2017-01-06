@@ -33,6 +33,16 @@ this would be legal as well (but should probably be avoided):
 Here, the generated function ends after calling `another_function()`. As this is a proof-of-concept,
 edge cases like this are considered undefined behaviour for now.
 
+## Running Examples
+This is a little rough around the edges right now and could use some (a lot) of work. Currently,
+the examples have to be compiled manually and a `doctest:run/1` must be called from the command
+line:
+
+    cd examples
+    erlc *
+    cd -
+    erl -pa examples -pa ebin -eval 'ok = doctest:run("examples/ex1.erl"), init:stop().'
+
 ## Some Requirements
 
 * When calling functions within the module which contains the runnable doc, ensure that
