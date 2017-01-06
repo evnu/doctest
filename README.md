@@ -50,7 +50,3 @@ erlang.mk when invoking `make`. You can run an example from the command line:
 
 * When calling functions within the module which contains the runnable doc, ensure that
   the module is available in the code path.
-
-## Some TODOs
-
-- [ ] Provide a nicer way to run tests
