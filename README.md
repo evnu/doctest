@@ -33,6 +33,10 @@ this would be legal as well (but should probably be avoided):
 Here, the generated function ends after calling `another_function()`. As this is a proof-of-concept,
 edge cases like this are considered undefined behaviour for now.
 
+## Building the PoC
+The PoC uses [erlang.mk](https://erlang.mk/) to be built, so running `make` is all that needs to be
+done.
+
 ## Running Examples
 The PoC contains a small set of examples in `apps/examples`. They are build automatically by
 erlang.mk when invoking `make`. You can run an example from the command line:
