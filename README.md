@@ -43,6 +43,8 @@ line:
     cd -
     erl -pa examples -pa ebin -eval 'ok = doctest:run("examples/ex1.erl"), init:stop().'
 
+Maybe resolving issue #2 could help here.
+
 ## Some Requirements
 
 * When calling functions within the module which contains the runnable doc, ensure that
@@ -50,4 +52,4 @@ line:
 
 ## Some TODOs
 
-* A user should be able to define a custom code path
+- [ ] Provide a nicer way to run tests
