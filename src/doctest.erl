@@ -8,13 +8,22 @@
 %% TODO NOTE: no epp - no preprocessing
 %% TODO mention that ``` must be matched exactly => ```no_run works OOTB
 -module(doctest).
--export([run/1]).
+-export([main/1]).
 
 %% Run tests for all files
-run(Files) when is_list(Files) ->
-    [ run1(File) || File <- Files ].
+main(Args) when is_list(Args) ->
+    ParsedArgs = doctest_cli:parse(Args),
+    CodePaths = doctest_cli:get_code_paths(ParsedArgs),
+    ok = add_code_paths(CodePaths),
+    case doctest_cli:get_files(ParsedArgs) of
+        [] -> io:format("No tests to run.~n");
+        Files -> [ run(File) || File <- Files ]
+    end.
 
-run1(File) when is_binary(File);
+add_code_paths(Paths) ->
+    lists:foreach(fun code:add_patha/1, Paths).
+
+run(File) when is_binary(File);
                 is_list(File) ->
     %% Create tests
     Comments = erl_comment_scan:file(File),

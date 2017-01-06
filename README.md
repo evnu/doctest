@@ -34,16 +34,17 @@ Here, the generated function ends after calling `another_function()`. As this is
 edge cases like this are considered undefined behaviour for now.
 
 ## Building the PoC
-The PoC uses [erlang.mk](https://erlang.mk/) to be built, so running `make` is all that needs to be
-done.
+The PoC uses [erlang.mk](https://erlang.mk/) to built an executable `escript`:
+
+    $ make escript
+
+This places an executable `doctest` in the top-level directory.
 
 ## Running Examples
 The PoC contains a small set of examples in `apps/examples`. They are build automatically by
 erlang.mk when invoking `make`. You can run an example from the command line:
 
-    erl -pa ebin -pa apps/examples/ebin -eval 'doctest:run(["apps/examples/src/ex1.erl"]), init:stop().'
-
-This is not very convenient yet, but it works.
+    $ ./doctest -pa ebin -pa apps/examples/ebin -source apps/examples/src/ex1.erl
 
 ## Some Requirements
 
