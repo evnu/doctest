@@ -36,6 +36,7 @@ edge cases like this are considered undefined behaviour for now.
 ## Building the PoC
 The PoC uses [erlang.mk](https://erlang.mk/) to built an executable `escript`:
 
+    $ make
     $ make escript
 
 This places an executable `doctest` in the top-level directory.
